@@ -58,23 +58,38 @@ def get_roi_differences(rid):
     rets['diff'] = dd    
     return rets    
                         
+def count_rois_differences():
+    """
+    counts average differences between no. pixels in ROIs
+    """
+    h =[[len(l) for l in get_animal_rois(get_name('H',i))] for i in INDICES]
+    d =[[len(l) for l in get_animal_rois(get_name('D',i))] for i in INDICES]
+    h = np.sum(np.asarray(h),axis=0)
+    d = np.sum(np.asarray(d),axis=0)
+    diff = np.abs(h-d)
+    print (100*np.mean([np.median(diff/h),np.median(diff/d)]))
+    print ("average difference: {:0.2f}({:0.2f})".format(100*np.mean([np.mean(diff/h),np.mean(diff/d)]),100*np.mean([np.std(diff/h),np.std(diff/d)])))
+
 
 def plot_roi_histo(rid,small=False,show=GLOBAL_SHOW):
     """
     plots hhistogram of temperatures for a given ROI
     parameters:
-        rid - ROI id
+        rid - ROI id or 0 for all
         small - True/False: wheather to generate small (half-size) histograms
         show: True/False: show or save image
     """
-    assert rid>0 and rid<16,"{}".format(rid) 
+    assert rid>=0 and rid<16,"{}".format(rid) 
     temps = {}
     for atype in ATYPES:
         temps[atype]=[]
         for i in INDICES:
             name = get_name(atype,i)
             rois = get_animal_rois(name)
-            temps[atype].append(rois[rid-1])
+            if rid>0:
+                temps[atype].append(rois[rid-1])
+            else:    
+                temps[atype].append(np.concatenate(rois))
         temps[atype] = np.concatenate(temps[atype])
         print ("{} ROI {}: mean: {:0.2f}, std: {:0.2f}, skew:{:0.2f}, kurtosis:{:0.2f}".format(atype,rid
                                                                                                ,np.mean(temps[atype])
@@ -95,7 +110,8 @@ def plot_roi_histo(rid,small=False,show=GLOBAL_SHOW):
     if not small:
         plt.xlabel("Temperature")
     else:
-        plt.xlabel("[ROI {}] Temp.".format(rid))
+        txt="[ROI {}] Temp.".format(rid) if rid>0 else 'Combined Temp.'
+        plt.xlabel(txt)
     plt.ylabel("Density")
     if not small:
         plt.legend()        
@@ -107,10 +123,10 @@ def plot_roi_histo(rid,small=False,show=GLOBAL_SHOW):
         plt.savefig('fig/histo_{}{}.pdf'.format(rid,ss),bbox_inches='tight',pad_inches=0)
     plt.close()
     
- 
-
-
+import sys 
 if __name__ == '__main__':
+    count_rois_differences()
+    plot_roi_histo(0,small=True)
     for rid in range(1,16):
         plot_roi_histo(rid,small=True)
     imin=4
@@ -123,8 +139,3 @@ if __name__ == '__main__':
     
     plot_roi_histo(rid=imin) 
     plot_roi_histo(rid=imax) 
-       
-
-   
-   
-  
