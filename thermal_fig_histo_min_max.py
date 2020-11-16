@@ -123,7 +123,6 @@ def plot_roi_histo(rid,small=False,show=GLOBAL_SHOW):
         plt.savefig('fig/histo_{}{}.pdf'.format(rid,ss),bbox_inches='tight',pad_inches=0)
     plt.close()
     
-import sys 
 if __name__ == '__main__':
     count_rois_differences()
     plot_roi_histo(0,small=True)
