@@ -12,7 +12,7 @@ NumPy 1.16.4, SciPy 1.3.1, scikit-learn 0.22.1, Matplotlib 3.2.2, seaborn 0.11.0
 
 ## The dataset associated with that source code:
 
-https://zenodo.org/deposit/4085075
+https://zenodo.org/record/4085075
 
 ## Usage:
 
