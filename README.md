@@ -1,9 +1,11 @@
 ## Description:
 
-Source code enabling replication of experiments in the paper by
-M. Domino, M. Romaszewski,  T. Jasiński,  M. Maśko
-`Comparison of surface thermal patterns of horses and donkeys in IRT images'
-preprint: http://arxiv.org/abs/2010.09302
+Source code enabling replication of experiments in the paper:
+Domino, M.; Romaszewski, M.; Jasiński, T.; Maśko, M. 
+Comparison of the Surface Thermal Patterns of Horses and Donkeys in Infrared Thermography Images. 
+Animals 2020, 10, 2201. 
+https://doi.org/10.3390/ani10122201
+
 
 ## Implementation:
 
